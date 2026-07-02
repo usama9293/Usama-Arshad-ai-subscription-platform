@@ -3,10 +3,7 @@ import { MockOpenAiService } from './mock-openai.service';
 import { MonthlyUsageRepository } from '../repositories/monthly-usage.repository';
 import { ChatMessageRepository } from '../repositories/chat-message.repository';
 import { SubscriptionRepository } from '../../subscriptions/repositories/subscription.repository';
-import {
-  ChatMessage,
-  UsageSource,
-} from '../domain/entities/chat-message.entity';
+import { ChatMessage, UsageSource } from '../domain/entities/chat-message.entity';
 import { QuotaExceededException } from '../domain/errors/quota-exceeded.exception';
 import { AskQuestionDto } from '../dto/ask-question.dto';
 
@@ -34,24 +31,17 @@ export class ChatService {
     message.tokensUsed = aiResponse.tokensUsed;
     message.source = deductionPlan.source;
     message.bundleId =
-      deductionPlan.source === UsageSource.BUNDLE
-        ? (deductionPlan.bundleId ?? null)
-        : null;
-
+      deductionPlan.source === UsageSource.BUNDLE ? (deductionPlan.bundleId ?? null) : null;
     return this.chatMessageRepo.save(message);
   }
 
   private async resolveDeductionSource(userId: string): Promise<DeductionPlan> {
-    const freeUsage =
-      await this.monthlyUsageRepo.findOrCreateForCurrentMonth(userId);
+    const freeUsage = await this.monthlyUsageRepo.findOrCreateForCurrentMonth(userId);
 
     if (freeUsage.hasRemainingFreeQuota()) {
       return { source: UsageSource.FREE_QUOTA, freeUsage };
     }
-    const bundles =
-      await this.subscriptionRepo.findActiveByUserOrderedByRenewalDateDesc(
-        userId,
-      );
+    const bundles = await this.subscriptionRepo.findActiveByUserOrderedByRenewalDateDesc(userId);
     const usableBundle = bundles.find((bundle) => bundle.hasRemainingQuota());
 
     if (usableBundle) {

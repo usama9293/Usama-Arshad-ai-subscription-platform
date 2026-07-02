@@ -1,7 +1,4 @@
-import {
-  BundleTier,
-  BillingCycle,
-} from './entities/subscription-bundle.entity';
+import { BundleTier, BillingCycle } from './entities/subscription-bundle.entity';
 
 export const TIER_PRICING: Record<BundleTier, Record<BillingCycle, number>> = {
   [BundleTier.BASIC]: { [BillingCycle.MONTHLY]: 5, [BillingCycle.YEARLY]: 50 },

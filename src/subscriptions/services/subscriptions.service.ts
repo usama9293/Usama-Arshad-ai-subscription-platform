@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { SubscriptionRepository } from '../repositories/subscription.repository';
 import {
   SubscriptionBundle,
@@ -12,14 +8,13 @@ import {
 } from '../domain/entities/subscription-bundle.entity';
 import { TIER_PRICING } from '../domain/pricing';
 import { CreateSubscriptionDto } from '../dto/create-subscription.dto';
+import { SubscriptionNotFoundException } from 'src/chat/domain/errors/subscription-not-found.exception';
 
 @Injectable()
 export class SubscriptionsService {
   constructor(private readonly subscriptionRepo: SubscriptionRepository) {}
 
-  async createSubscription(
-    dto: CreateSubscriptionDto,
-  ): Promise<SubscriptionBundle> {
+  async createSubscription(dto: CreateSubscriptionDto): Promise<SubscriptionBundle> {
     const now = new Date();
     const endDate = this.calculateEndDate(now, dto.billingCycle);
 
@@ -41,7 +36,7 @@ export class SubscriptionsService {
 
   async cancelSubscription(bundleId: string): Promise<SubscriptionBundle> {
     const bundle = await this.subscriptionRepo.findById(bundleId);
-    if (!bundle) throw new NotFoundException('Subscription not found');
+    if (!bundle) throw new SubscriptionNotFoundException(bundleId);
 
     if (bundle.status === BundleStatus.CANCELLED) {
       throw new BadRequestException('Subscription already cancelled');

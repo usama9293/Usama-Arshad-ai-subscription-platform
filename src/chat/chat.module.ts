@@ -15,11 +15,6 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
     SubscriptionsModule, // gives us access to SubscriptionRepository (it's exported there)
   ],
   controllers: [ChatController],
-  providers: [
-    ChatService,
-    MockOpenAiService,
-    MonthlyUsageRepository,
-    ChatMessageRepository,
-  ],
+  providers: [ChatService, MockOpenAiService, MonthlyUsageRepository, ChatMessageRepository],
 })
 export class ChatModule {}

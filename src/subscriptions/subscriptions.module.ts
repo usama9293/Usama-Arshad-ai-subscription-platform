@@ -9,11 +9,7 @@ import { SubscriptionsController } from './subscriptions.controller';
 @Module({
   imports: [TypeOrmModule.forFeature([SubscriptionBundle])],
   controllers: [SubscriptionsController],
-  providers: [
-    SubscriptionRepository,
-    SubscriptionsService,
-    BillingSimulatorService,
-  ],
+  providers: [SubscriptionRepository, SubscriptionsService, BillingSimulatorService],
   exports: [SubscriptionRepository, SubscriptionsService],
 })
 export class SubscriptionsModule {}

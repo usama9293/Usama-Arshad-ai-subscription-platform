@@ -24,8 +24,7 @@ export class BillingSimulatorService {
       const paymentSucceeded = this.simulatePayment();
 
       if (paymentSucceeded) {
-        const cycleMonths =
-          bundle.billingCycle === BillingCycle.MONTHLY ? 1 : 12;
+        const cycleMonths = bundle.billingCycle === BillingCycle.MONTHLY ? 1 : 12;
         const newEnd = new Date(bundle.endDate);
         newEnd.setMonth(newEnd.getMonth() + cycleMonths);
 

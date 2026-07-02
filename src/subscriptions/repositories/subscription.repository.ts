@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThanOrEqual } from 'typeorm';
-import {
-  SubscriptionBundle,
-  BundleStatus,
-} from '../domain/entities/subscription-bundle.entity';
+import { SubscriptionBundle, BundleStatus } from '../domain/entities/subscription-bundle.entity';
 
 @Injectable()
 export class SubscriptionRepository {
@@ -26,9 +23,7 @@ export class SubscriptionRepository {
       where: { userId, status: BundleStatus.ACTIVE },
     });
   }
-  async findActiveByUserOrderedByRenewalDateDesc(
-    userId: string,
-  ): Promise<SubscriptionBundle[]> {
+  async findActiveByUserOrderedByRenewalDateDesc(userId: string): Promise<SubscriptionBundle[]> {
     return this.repo.find({
       where: { userId, status: BundleStatus.ACTIVE },
       order: { renewalDate: 'DESC' },

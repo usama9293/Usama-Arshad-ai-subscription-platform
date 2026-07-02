@@ -1,8 +1,5 @@
 import { IsEnum, IsUUID, IsBoolean, IsOptional } from 'class-validator';
-import {
-  BundleTier,
-  BillingCycle,
-} from '../domain/entities/subscription-bundle.entity';
+import { BundleTier, BillingCycle } from '../domain/entities/subscription-bundle.entity';
 
 export class CreateSubscriptionDto {
   @IsUUID()
