@@ -30,8 +30,7 @@ export class ChatService {
     message.answer = aiResponse.answer;
     message.tokensUsed = aiResponse.tokensUsed;
     message.source = deductionPlan.source;
-    message.bundleId =
-      deductionPlan.source === UsageSource.BUNDLE ? (deductionPlan.bundleId ?? null) : null;
+    message.bundleId = deductionPlan.source === UsageSource.BUNDLE ? deductionPlan.bundle.id : null;
     return this.chatMessageRepo.save(message);
   }
 
